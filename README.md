@@ -1,73 +1,105 @@
-# Welcome to your Lovable project
+🛍️ ATELIER — E-Commerce Web App
+ATELIER is a modern e-commerce web application where users can browse products, authenticate, add items to their cart, and proceed through a secure payment flow 🛒💳.
+The website is fully responsive and built using **TypeScript, React, and Supabase**, focusing on performance and a smooth shopping experience ⚡
 
-## Project info
+A payment gateway is integrated, and some features are currently under development — such as allowing logged-in users to sell their own products and full Stripe payment integration 🚀
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+---
 
-## How can I edit this code?
+🧰 Tech Stack
 
-There are several ways of editing your application.
+⚛️ React
+🔷 TypeScript
+🗄️ Supabase (Auth + DB)
+🎯 React Hooks & Context
+🌐 REST APIs
+💳 Stripe (in progress)
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+✨ Features
 
-Changes made via Lovable will be committed automatically to this repo.
+👤 User authentication (login / signup)
+🛍️ Browse products
+🛒 Add to Cart system
+💳 Payment Gateway integration (Stripe – in progress)
+📱 Fully responsive design
+🛠️ Logged-in users will be able to **sell products** (under development)
+🔐 Secure database-backed auth with Supabase
+⚡ Fast, modern UI with TypeScript
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+🚧 Work in Progress
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Some functionalities are currently being built:
 
-Follow these steps:
+🔄 Logged-in users can list/sell products
+💳 Completed Stripe payment flow
+🧾 Order history & dashboard
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## ▶️ How to Run Locally
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. Clone the repo
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+   ```bash
+   git clone <repo-url>
+   ```
+
+2. Move into folder
+
+   ```bash
+   cd atelier
+   ```
+
+3. Install dependencies
+
+   ```bash
+   npm install
+   ```
+
+4. Add environment variables
+
+   * Supabase URL
+   * Supabase anon/public key
+   * Stripe keys (if enabled)
+
+5. Run development server
+
+   ```bash
+   npm run dev
+   ```
+
+6. Open in browser 🎉
+
+---
+
+🗂️ Folder Structure (basic idea)
+
+```
+atelier/
+ ├── src/
+ │   ├── components/
+ │   ├── pages/
+ │   ├── hooks/
+ │   ├── context/
+ │   ├── utils/
+ │   └── types/
+ ├── public/
+ ├── package.json
+ └── README.md
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+🖼️ Screenshots 
 
-**Use GitHub Codespaces**
+<img width="1892" height="898" alt="Screenshot 2025-12-31 200010" src="https://github.com/user-attachments/assets/e7e516c5-81c0-4aea-af73-c3b2517f049e" />
+<img width="1889" height="896" alt="Screenshot 2025-12-31 200000" src="https://github.com/user-attachments/assets/16c397ce-7e72-493d-b163-6f2b9ed475c0" />
+<img width="1891" height="894" alt="Screenshot 2025-12-31 195936" src="https://github.com/user-attachments/assets/ff7d1f82-871e-4af1-aa8f-f789265c6aac" />
+<img width="1889" height="900" alt="Screenshot 2025-12-31 200042" src="https://github.com/user-attachments/assets/81f68688-16ac-4b77-801d-be1b7716a7ca" />
+<img width="1894" height="893" alt="Screenshot 2025-12-31 200031" src="https://github.com/user-attachments/assets/fc872690-e1e7-4c41-bb31-47991b2d7e57" />
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+* convert tone to **very professional / resume-style**
