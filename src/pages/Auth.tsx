@@ -1,12 +1,21 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/context/AuthContext";
+import { z } from "zod";
+
+const authSchema = z.object({
+  email: z.string().trim().email({ message: "Invalid email address" }).max(255),
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }).max(72),
+  fullName: z.string().trim().max(100).optional(),
+});
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -14,14 +23,62 @@ const Auth = () => {
     lastName: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { user, signIn, signUp } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Placeholder - will be replaced with actual auth when Cloud is enabled
-    if (isLogin) {
-      toast.info("Login functionality requires backend setup. Click 'Connect Lovable Cloud' below to enable.");
-    } else {
-      toast.info("Sign up functionality requires backend setup. Click 'Connect Lovable Cloud' below to enable.");
+    const fullName = !isLogin ? `${formData.firstName} ${formData.lastName}`.trim() : undefined;
+    
+    // Validate input
+    const validation = authSchema.safeParse({
+      email: formData.email,
+      password: formData.password,
+      fullName,
+    });
+    
+    if (!validation.success) {
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      if (isLogin) {
+        const { error } = await signIn(formData.email, formData.password);
+        if (error) {
+          if (error.message.includes("Invalid login credentials")) {
+            toast.error("Invalid email or password");
+          } else {
+            toast.error(error.message);
+          }
+        } else {
+          toast.success("Welcome back!");
+          navigate("/");
+        }
+      } else {
+        const { error } = await signUp(formData.email, formData.password, fullName!);
+        if (error) {
+          if (error.message.includes("User already registered")) {
+            toast.error("An account with this email already exists");
+          } else {
+            toast.error(error.message);
+          }
+        } else {
+          toast.success("Account created successfully!");
+          navigate("/");
+        }
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -82,6 +139,7 @@ const Auth = () => {
                     onChange={handleChange}
                     className="w-full border border-border bg-transparent px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
                     required={!isLogin}
+                    disabled={isSubmitting}
                   />
                 </div>
                 <div>
@@ -96,6 +154,7 @@ const Auth = () => {
                     onChange={handleChange}
                     className="w-full border border-border bg-transparent px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
                     required={!isLogin}
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -113,6 +172,7 @@ const Auth = () => {
                 onChange={handleChange}
                 className="w-full border border-border bg-transparent px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
                 required
+                disabled={isSubmitting}
               />
             </div>
 
@@ -129,11 +189,13 @@ const Auth = () => {
                   onChange={handleChange}
                   className="w-full border border-border bg-transparent px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-accent pr-12"
                   required
+                  disabled={isSubmitting}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  disabled={isSubmitting}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -148,8 +210,15 @@ const Auth = () => {
               </div>
             )}
 
-            <Button variant="hero" size="lg" type="submit" className="w-full">
-              {isLogin ? "Sign In" : "Create Account"}
+            <Button variant="hero" size="lg" type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {isLogin ? "Signing In..." : "Creating Account..."}
+                </>
+              ) : (
+                isLogin ? "Sign In" : "Create Account"
+              )}
             </Button>
           </form>
 
@@ -159,6 +228,7 @@ const Auth = () => {
               <button
                 onClick={() => setIsLogin(!isLogin)}
                 className="text-foreground underline underline-offset-4 hover:text-accent"
+                disabled={isSubmitting}
               >
                 {isLogin ? "Create one" : "Sign in"}
               </button>
