@@ -102,4 +102,4 @@ atelier/
 <img width="1889" height="900" alt="Screenshot 2025-12-31 200042" src="https://github.com/user-attachments/assets/81f68688-16ac-4b77-801d-be1b7716a7ca" />
 <img width="1894" height="893" alt="Screenshot 2025-12-31 200031" src="https://github.com/user-attachments/assets/fc872690-e1e7-4c41-bb31-47991b2d7e57" />
 
-* convert tone to **very professional / resume-style**
+
